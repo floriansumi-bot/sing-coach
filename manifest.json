@@ -1,0 +1,14 @@
+{
+  "name": "VoiceLab — Singing Coach",
+  "short_name": "VoiceLab",
+  "description": "Real-time pitch tuner, vocal exercises, practice mode, and producer singing tips.",
+  "start_url": ".",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#09090f",
+  "background_color": "#09090f",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

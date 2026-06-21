@@ -1,0 +1,8 @@
+{
+  "appId": "com.florian.voicelab",
+  "appName": "VoiceLab",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https"
+  }
+}

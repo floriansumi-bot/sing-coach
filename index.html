@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VoiceLab — Singing Coach</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#09090f">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div id="app">
+  <header class="app-header">
+    <span class="header-icon">🎙️</span>
+    <div class="header-text">
+      <h1>VoiceLab</h1>
+      <p class="tagline">Sing in your productions</p>
+    </div>
+  </header>
+
+  <nav class="tab-bar" role="tablist">
+    <button class="tab-btn active" data-tab="tuner" role="tab">
+      <span class="tab-icon">🎯</span><span class="tab-label">Tuner</span>
+    </button>
+    <button class="tab-btn" data-tab="warmup" role="tab">
+      <span class="tab-icon">🏋️</span><span class="tab-label">Warm-up</span>
+    </button>
+    <button class="tab-btn" data-tab="practice" role="tab">
+      <span class="tab-icon">🎵</span><span class="tab-label">Practice</span>
+    </button>
+    <button class="tab-btn" data-tab="theory" role="tab">
+      <span class="tab-icon">📖</span><span class="tab-label">Theory</span>
+    </button>
+    <button class="tab-btn" data-tab="tips" role="tab">
+      <span class="tab-icon">💡</span><span class="tab-label">Tips</span>
+    </button>
+  </nav>
+
+  <main class="tab-area">
+
+    <!-- ═══ TUNER ═══ -->
+    <section id="tab-tuner" class="tab-panel active">
+
+      <div id="tunerStart" class="hero-state">
+        <div class="hero-icon-big">🎙️</div>
+        <h2>Real-Time Vocal Tuner</h2>
+        <p>Sing into your mic and see exactly what note you're hitting — and how close you are to perfect pitch.</p>
+        <button class="btn-primary btn-large" id="btnStartTuner">Enable Microphone</button>
+      </div>
+
+      <div id="tunerActive" class="hidden">
+        <div class="note-card">
+          <div class="note-name-wrap">
+            <span class="note-name" id="tNoteDisplay">--</span>
+            <span class="note-octave" id="tOctaveDisplay"></span>
+          </div>
+          <div class="note-freq" id="tFreqDisplay">-- Hz</div>
+        </div>
+
+        <div class="cents-section">
+          <div class="cents-track">
+            <div class="cents-zone cz-red-l"></div>
+            <div class="cents-zone cz-yellow-l"></div>
+            <div class="cents-zone cz-green"></div>
+            <div class="cents-zone cz-yellow-r"></div>
+            <div class="cents-zone cz-red-r"></div>
+            <div class="cents-needle" id="tCentsNeedle"></div>
+            <div class="cents-center-tick"></div>
+          </div>
+          <div class="cents-scale">
+            <span>−50¢</span><span>−25¢</span><span>0</span><span>+25¢</span><span>+50¢</span>
+          </div>
+        </div>
+
+        <div class="accuracy-badge" id="tAccuracyBadge">
+          <span id="tAccuracyText">Sing something...</span>
+        </div>
+
+        <div class="vol-row">
+          <span class="vol-lbl">VOL</span>
+          <div class="vol-track"><div class="vol-bar" id="tVolBar"></div></div>
+        </div>
+
+        <button class="btn-secondary btn-sm" id="btnStopTuner">⏹ Stop Mic</button>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="ref-section">
+        <div class="ref-header">
+          <h3>Reference Tones</h3>
+          <div class="octave-nav">
+            <button class="btn-icon-sm" id="refOctaveDown">−</button>
+            <span id="refOctaveLabel">Octave 4</span>
+            <button class="btn-icon-sm" id="refOctaveUp">+</button>
+          </div>
+        </div>
+        <p class="ref-hint">Tap to hear a note. Sing along to train your ear.</p>
+        <div class="ref-tone-grid" id="refToneGrid"></div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- RANGE TEST -->
+      <div class="range-section">
+        <div class="ref-header">
+          <h3>Vocal Range Test</h3>
+        </div>
+        <p class="ref-hint">Find your voice type, range, and best production key — takes 2 minutes.</p>
+
+        <div id="rangeIdle">
+          <button class="btn-primary range-start-btn" id="btnStartRange">🔬 Test My Vocal Range</button>
+        </div>
+
+        <div id="rangeLow" class="hidden">
+          <div class="range-step-card">
+            <div class="range-step-badge">Step 1 of 2 — Lowest Note</div>
+            <p class="range-step-inst">Sing <strong>downward</strong> on "Ahh" until your voice gets rough or breaks. Stop just before that point.</p>
+            <div class="range-live-wrap">
+              <div class="range-live-note" id="rangeLiveNote">--</div>
+              <div class="range-live-freq" id="rangeLiveFreq"></div>
+            </div>
+            <button class="btn-primary range-start-btn" id="btnSetLow">✓ That's my lowest!</button>
+          </div>
+        </div>
+
+        <div id="rangeHigh" class="hidden">
+          <div class="range-step-card">
+            <div class="range-step-badge">Step 2 of 2 — Highest Note</div>
+            <p class="range-step-inst">Sing <strong>upward</strong> on "Eee" to your highest comfortable note. Stop before it gets forced or squeaky.</p>
+            <div class="range-live-wrap">
+              <div class="range-live-note" id="rangeHighNote">--</div>
+              <div class="range-live-freq" id="rangeHighFreq"></div>
+            </div>
+            <button class="btn-primary range-start-btn" id="btnSetHigh">✓ That's my highest!</button>
+          </div>
+        </div>
+
+        <div id="rangeResults" class="hidden">
+          <div class="range-result-card">
+            <div class="range-endpoints">
+              <div class="range-ep">
+                <div class="range-ep-lbl">LOWEST</div>
+                <div class="range-ep-note" id="resultLow">--</div>
+              </div>
+              <div class="range-bar-col">
+                <div class="range-bar">
+                  <div class="range-sweet-zone" id="rangeSweet"></div>
+                </div>
+                <div class="range-span-lbl" id="rangeSpan"></div>
+              </div>
+              <div class="range-ep">
+                <div class="range-ep-lbl">HIGHEST</div>
+                <div class="range-ep-note" id="resultHigh">--</div>
+              </div>
+            </div>
+            <div class="range-type-row">
+              <span class="range-type-badge" id="rangeType"></span>
+              <span class="range-sweet-txt" id="rangeSweetLabel"></span>
+            </div>
+            <p class="range-prod-tip" id="rangeProdTip"></p>
+          </div>
+          <div class="range-action-row">
+            <button class="btn-secondary" id="btnRangeReset">↩ Test Again</button>
+            <button class="btn-primary" id="btnRangeGoPractice">Try in Practice →</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ WARM-UP ═══ -->
+    <section id="tab-warmup" class="tab-panel">
+      <div class="section-hdr">
+        <h2>Vocal Warm-ups</h2>
+        <p>Run all 6 before every recording session (~10 min). Your takes will thank you.</p>
+      </div>
+      <div class="exercise-grid" id="exerciseGrid"></div>
+
+      <!-- MODAL -->
+      <div class="ex-modal hidden" id="exerciseModal">
+        <div class="modal-backdrop"></div>
+        <div class="modal-card">
+          <div class="modal-hdr">
+            <span class="modal-icon" id="modalIcon"></span>
+            <h3 class="modal-ttl" id="modalTitle"></h3>
+            <button class="modal-x" id="modalClose">✕</button>
+          </div>
+          <div class="modal-body" id="modalBody"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ PRACTICE ═══ -->
+    <section id="tab-practice" class="tab-panel">
+      <div class="section-hdr">
+        <h2>Pitch Practice</h2>
+        <p>The app plays a note — you sing it back. Hold it in tune to score points.</p>
+      </div>
+
+      <div class="practice-config">
+        <label>Key <select id="pKey">
+          <option>C</option><option>C#</option><option>D</option><option>D#</option>
+          <option>E</option><option>F</option><option>F#</option><option>G</option>
+          <option>G#</option><option selected>A</option><option>A#</option><option>B</option>
+        </select></label>
+        <label>Octave <select id="pOctave">
+          <option value="3">3 — low</option>
+          <option value="4" selected>4 — mid</option>
+          <option value="5">5 — high</option>
+        </select></label>
+        <label>Mode <select id="pMode">
+          <option value="scale">Major scale</option>
+          <option value="intervals">Intervals</option>
+          <option value="random">Random notes</option>
+        </select></label>
+      </div>
+
+      <div class="practice-arena">
+        <div class="practice-row">
+          <div class="p-col">
+            <div class="p-lbl">TARGET</div>
+            <div class="p-note" id="pTargetNote">--</div>
+            <div class="p-freq" id="pTargetFreq"></div>
+            <button class="btn-play" id="pPlayTarget" title="Hear target note">▶</button>
+          </div>
+          <div class="p-divider">VS</div>
+          <div class="p-col">
+            <div class="p-lbl">YOU</div>
+            <div class="p-note" id="pSungNote" style="color:var(--cyan)">--</div>
+            <div class="p-freq" id="pSungCents"></div>
+          </div>
+        </div>
+
+        <div class="match-wrap">
+          <div class="match-track"><div class="match-fill" id="pMatchFill"></div></div>
+          <div class="match-label" id="pMatchLabel">--</div>
+        </div>
+
+        <div class="score-row">
+          <div class="score-box"><div class="score-n" id="pScore">0</div><div class="score-l">Score</div></div>
+          <div class="score-box"><div class="score-n" id="pStreak">0</div><div class="score-l">Streak</div></div>
+          <div class="score-box"><div class="score-n" id="pRound">0</div><div class="score-l">Session</div></div>
+        </div>
+
+        <div class="p-btns">
+          <button class="btn-primary" id="pBtnStart">Start Session</button>
+          <button class="btn-secondary hidden" id="pBtnNext">Next Note →</button>
+          <button class="btn-ghost hidden" id="pBtnStop">End</button>
+        </div>
+        <div class="p-hint" id="pHint"></div>
+      </div>
+    </section>
+
+    <!-- ═══ THEORY ═══ -->
+    <section id="tab-theory" class="tab-panel">
+      <div class="section-hdr">
+        <h2>Vocal Theory</h2>
+        <p>Everything you need to know to record great vocals in your productions.</p>
+      </div>
+      <div class="theory-grid" id="theoryGrid"></div>
+    </section>
+
+    <!-- ═══ TIPS ═══ -->
+    <section id="tab-tips" class="tab-panel">
+      <div class="section-hdr">
+        <h2>Producer's Singing Guide</h2>
+        <p>Practical tips for recording your own voice at home and in your productions.</p>
+      </div>
+      <div class="tips-list" id="tipsList"></div>
+    </section>
+
+  </main>
+</div>
+
+<script src="js/pitch.js?v=3"></script>
+<script src="js/exercises.js?v=3"></script>
+<script src="js/app.js?v=3"></script>
+</body>
+</html>
