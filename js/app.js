@@ -3,92 +3,122 @@
 const THEORY_CARDS = [
   {
     icon: '🎤',
-    title: 'Vocal Ranges',
-    body: `<table class="theory-table">
-      <tr><th>Voice</th><th>Range</th><th>Use in productions</th></tr>
-      <tr><td>Bass</td><td>E2–E4</td><td>Deep hooks, spoken word vibes</td></tr>
-      <tr><td>Baritone</td><td>A2–A4</td><td>Pop, R&B, most male vocals</td></tr>
-      <tr><td>Tenor</td><td>C3–C5</td><td>High male vocals, falsetto features</td></tr>
-      <tr><td>Alto</td><td>F3–F5</td><td>Warm low female, backing vocals</td></tr>
-      <tr><td>Mezzo</td><td>A3–A5</td><td>Mid-range female, most pop vocals</td></tr>
-      <tr><td>Soprano</td><td>C4–C6</td><td>High female, leads, stacked choirs</td></tr>
-    </table>`,
+    title: 'Know Your Voice Type',
+    body: `<p>Every great singer is defined by their natural range. Don't fight it — own it.</p>
+    <table class="theory-table">
+      <tr><th>Type</th><th>Range</th><th>Artists</th></tr>
+      <tr><td>Bass</td><td>E2–E4</td><td>Johnny Cash, Barry White, Nick Cave</td></tr>
+      <tr><td>Baritone</td><td>A2–A4</td><td>Frank Sinatra, Elvis, Ed Sheeran, Bruno Mars</td></tr>
+      <tr><td>Tenor</td><td>C3–C5</td><td>Freddie Mercury, Michael Jackson, Frank Ocean</td></tr>
+      <tr><td>Alto/Contralto</td><td>F3–F5</td><td>Billie Eilish, Amy Winehouse, Tracy Chapman</td></tr>
+      <tr><td>Mezzo-soprano</td><td>A3–A5</td><td>Adele, Beyoncé, P!nk, Lana Del Rey</td></tr>
+      <tr><td>Soprano</td><td>C4–C6</td><td>Mariah Carey, Ariana Grande, Whitney Houston</td></tr>
+    </table>
+    <p style="margin-top:10px">💡 Use the <strong>Vocal Range Test</strong> (Tuner tab) to find yours — all exercises will automatically tune to your voice.</p>`,
     links: [
-      { label: 'Voice Types: All 8 Classifications Explained', url: 'https://www.youtube.com/watch?v=8G1C2ktW3-E' },
-      { label: 'How To Find Your Vocal Range', url: 'https://www.youtube.com/watch?v=QTt_lMlmZMk' }
+      { label: 'Voice Types: All 8 Classifications Explained', url: 'https://www.youtube.com/watch?v=8G1C2ktW3-E' }
+    ]
+  },
+  {
+    icon: '🫁',
+    title: 'Breath Support — The Hidden Engine',
+    body: `<p>When Adele belts effortlessly over an orchestra, what you're hearing isn't a powerful larynx — it's <strong>breath support</strong>. Every master singer trains this first.</p>
+    <p><strong>The wrong way:</strong> shallow chest breathing — shoulders rise, tone gets thin and tight.</p>
+    <p><strong>The right way:</strong> diaphragm support — belly expands on the in-breath; as you sing, the belly pulls slowly inward, pushing a controlled column of air through the cords.</p>
+    <ul>
+      <li><strong>Freddie Mercury, Pavarotti, Whitney</strong> — all known for seemingly endless phrases. That's breath control, not magic.</li>
+      <li><strong>Practical test:</strong> put a hand on your belly. If it rises when you breathe in and falls as you sing — you're doing it right.</li>
+      <li><strong>Studio tip:</strong> if you're running out of air mid-phrase, you're probably also over-singing. Back off 20%, support from the belly, and the note will ring longer with less effort.</li>
+    </ul>`,
+    links: [
+      { label: 'Diaphragmatic Breathing for Singers — Roger Love', url: 'https://www.youtube.com/watch?v=2Hj_SBVOJkA' }
     ]
   },
   {
     icon: '🏔️',
-    title: 'Chest vs Head Voice',
-    body: `<p><strong>Chest voice</strong> — the lower register. Vibrations resonate in your chest. Sounds full, powerful, warm. Most of your speaking voice is chest.</p>
-    <p><strong>Head voice</strong> — the upper register. Vibrations shift to your head/sinuses. Sounds bright, airy, thinner. Essential for high notes.</p>
-    <p><strong>Falsetto</strong> — a breathy, disconnected head voice. The cords vibrate at the edges only. Sounds airy/fragile. Common in R&B and pop features.</p>
-    <p><strong>Mixed voice</strong> — the goal. Blend of both registers. Full yet flexible. This is what top vocalists use for most of their range.</p>`,
+    title: 'Chest / Head / Mixed — Artist Breakdown',
+    body: `<p>The three registers every singer uses — and the artists who built careers on each one.</p>
+    <ul>
+      <li><strong>Chest voice</strong> — full, warm, resonates in the chest. <em>Barry White, Rag'n'Bone Man</em> live here. Most of your speaking voice is chest.</li>
+      <li><strong>Head voice</strong> — bright, airy, resonates in the sinuses. <em>Sam Smith's emotional highs</em> are head voice. Feels like the sound floats above you.</li>
+      <li><strong>Falsetto</strong> — a disconnected, breathy head voice. <em>The Weeknd, Bon Iver, Michael Jackson's high notes</em>. Fragile and intimate by design.</li>
+      <li><strong>Mixed voice</strong> — the goal. The blend of chest power + head flexibility. <em>Bruno Mars ("Locked Out of Heaven"), Beyoncé's belt</em>. Sounds powerful without strain.</li>
+      <li><strong>Billie Eilish</strong> perfected the whisper-chest approach — breathy, low, incredibly intimate. Not a flaw — a choice.</li>
+    </ul>`,
     links: [
-      { label: 'Chest, Head & Mixed Voice — Registers Explained', url: 'https://www.youtube.com/watch?v=LPg5Osmcs4Y' },
-      { label: 'Hear All Three Registers on the Same Song', url: 'https://www.youtube.com/watch?v=z0pu7NVi5rY' }
+      { label: 'Chest, Head & Mixed Voice — Registers Explained', url: 'https://www.youtube.com/watch?v=LPg5Osmcs4Y' }
     ]
   },
   {
     icon: '🔀',
-    title: 'The Passaggio (Register Break)',
-    body: `<p>The <strong>passaggio</strong> is the transition point between chest and head voice — where the voice tends to crack or thin out.</p>
-    <p>For most males it's around <strong>E4–G4</strong>. For females around <strong>A4–C5</strong>.</p>
-    <p>The Vocal Siren exercise (in Warm-up) is specifically designed to smooth this transition. The goal: no crack, just a seamless blend.</p>
-    <p>When recording, you can choose to stay in chest voice and just stop before the break — or train through it for a wider range.</p>`,
+    title: 'The Passaggio — How Masters Cross the Bridge',
+    body: `<p>The <strong>passaggio</strong> is the transition between chest and head voice — where voices crack or thin out. Every singer has one. What separates masters is how invisible they make it.</p>
+    <ul>
+      <li><strong>Freddie Mercury</strong> had virtually no audible passaggio — he trained it completely smooth over decades.</li>
+      <li><strong>Sam Smith</strong> uses controlled cracks through the passaggio as an emotional device (listen to "Stay With Me"). The crack is part of the performance.</li>
+      <li><strong>Males</strong> typically hit passaggio around E4–G4. <strong>Females</strong> around A4–C5.</li>
+    </ul>
+    <p>The <strong>Vocal Siren</strong> exercise (Warm-up tab) is specifically designed to smooth this. Slide through it, don't jump. The goal: no seam, just a continuous sound from bottom to top.</p>`,
     links: [
       { label: 'How To Sing Over The Passaggio', url: 'https://www.youtube.com/watch?v=BmV1uUMlN28' },
       { label: 'Fix Your Vocal Break — Exercises', url: 'https://www.youtube.com/watch?v=ZDoQ8OdtWxE' }
     ]
   },
   {
-    icon: '🎼',
-    title: 'Finding the Right Key',
-    body: `<p>Don't torture yourself singing in the wrong key. Your voice has a sweet spot.</p>
+    icon: '🌊',
+    title: 'Vibrato — The Natural Oscillation',
+    body: `<p>Vibrato is the gentle pitch oscillation that gives a sustained note warmth and life. The key insight: <strong>you don't produce vibrato — you allow it</strong>.</p>
+    <ul>
+      <li><strong>Celine Dion's vibrato</strong> is wide and operatic — comes from deep diaphragm support and a completely relaxed throat.</li>
+      <li><strong>Frank Sinatra</strong> had a subtler "swing" vibrato — barely perceptible oscillation that made long notes breathe without wobbling.</li>
+      <li><strong>Jeff Buckley</strong> used vibrato as emotional texture — it appeared only when the moment called for it.</li>
+    </ul>
+    <p><strong>How to develop it:</strong> hold a comfortable note at 70% volume with full breath support. Don't try to wiggle the pitch. Just hold, breathe, relax the jaw and throat. After 8–10 seconds, some singers start to feel a natural oscillation appear. That's it — that's vibrato being born. Chase it by relaxing, never by forcing.</p>
+    <p>⚠️ Forced vibrato (manually wobbling the jaw or larynx) sounds immediately fake and creates bad habits.</p>`,
+    links: []
+  },
+  {
+    icon: '🎵',
+    title: 'Runs & Riffs — Vocal Gymnastics',
+    body: `<p><strong>Mariah Carey's runs are not improvised.</strong> Every melismatic line is meticulously crafted and drilled hundreds of times. Vocal agility is a skill, not a gift.</p>
+    <p><strong>How to start building runs:</strong></p>
     <ol>
-      <li>Use the Vocal Range Test (Tuner tab) to find your lowest and highest note.</li>
-      <li>Your best singing range is typically in the middle ⅔ of that span.</li>
-      <li>In your DAW, set the track key to center around your sweet spot.</li>
-      <li>Transpose the chord progression if needed — the listener never knows.</li>
+      <li>Pick 3 notes: root → 2nd → root (e.g. C → D → C). Sing them fast on "la la la". That's a run.</li>
+      <li>Expand: root → 3rd → 5th → 3rd → root. Still fast, still clean.</li>
+      <li>Learn the scale in your sweet spot key. Runs are just fast scale fragments.</li>
+      <li>Practice at 50% speed until clean. Then 75%. Then full tempo.</li>
     </ol>
-    <p>Example: If your range is G2–G4, you'll sound best singing melodies in D3–E4. Set your production in a key that puts the hook there.</p>`,
+    <p><strong>Ariana Grande's style</strong> — short ornaments, whisper tone entry, then full voice. She doesn't run through whole scales; she uses 3–5 note ornaments placed at emotional peaks.</p>
+    <p>Producer tip: record your runs dry at low tempo, then time-stretch + re-pitch in the DAW as a creative tool.</p>`,
+    links: []
+  },
+  {
+    icon: '🎼',
+    title: 'Finding Your Key — Use Your Range Data',
+    body: `<p>Singing in the wrong key is the single most common reason home recordings sound strained. Your voice has a natural sweet zone — the key should bring the melody there.</p>
+    <ol>
+      <li>Complete the <strong>Vocal Range Test</strong> (Tuner tab) — the app will identify your sweet spot.</li>
+      <li>Hit <strong>"Try in Practice →"</strong> to auto-set the key to your range.</li>
+      <li>In your DAW, transpose the chord progression to match. The listener never knows — key is invisible.</li>
+      <li>Melodies should sit in the <strong>middle 60% of your range</strong> — the top and bottom 20% are reserve for emotional peaks and whisper lows.</li>
+    </ol>
+    <p><em>"If I'm straining, the key is wrong. I transpose until I'm not."</em> — The mindset of every working session vocalist.</p>`,
     links: [
-      { label: 'Find the Best Key for Your Voice (30 Day Singer)', url: 'https://www.youtube.com/watch?v=qkdoJT72GmY' },
-      { label: 'How to Pick the Right Song Key', url: 'https://www.youtube.com/watch?v=RvsemGbHfXU' }
+      { label: 'Find the Best Key for Your Voice (30 Day Singer)', url: 'https://www.youtube.com/watch?v=qkdoJT72GmY' }
     ]
   },
   {
     icon: '🤖',
-    title: 'How Pitch Correction Works',
-    body: `<p><strong>Auto-Tune / Melodyne</strong> — pitch correction doesn't fix bad singing, it <em>polishes</em> good singing.</p>
+    title: 'Pitch Correction — Polish, Not a Crutch',
+    body: `<p><strong>Auto-Tune doesn't fix bad singing</strong> — it polishes performances that are already in the right ballpark. Great singers use it as a final 10%, not a foundation.</p>
     <ul>
-      <li><strong>Retune speed</strong> — slow (50-100ms) = natural, sounds organic. Fast (0ms) = robotic T-Pain effect. Choose your style.</li>
-      <li><strong>Melodyne</strong> — manual note-by-note correction. Best for transparent results. Drag each note to its pitch center.</li>
-      <li><strong>Aim for 85%+ natural accuracy</strong> — correction of 15 cents sounds transparent. Correction of 60+ cents sounds processed.</li>
-      <li><strong>Comp first</strong> — always pick the best take before correcting. Correction can't save a bad performance.</li>
+      <li><strong>Retune speed:</strong> slow (80–100ms) = transparent, organic. Fast (0ms) = robotic effect (T-Pain, Travis Scott). Both are valid — pick your style.</li>
+      <li><strong>Melodyne</strong> = manual, note-by-note. Best for realistic results on acoustic/emotional vocals. Drag each blob to its center pitch.</li>
+      <li><strong>Leave emotion alone:</strong> Jeff Buckley's voice cracks. Kurt Cobain's wavering pitch. These are the performance — don't fix them. Correct intonation errors, preserve emotion.</li>
+      <li><strong>Comp first:</strong> select the best take before correcting. Pitch correction applied to a weak performance just sounds like a corrected weak performance.</li>
     </ul>`,
     links: [
-      { label: 'Melodyne Pitch Correction — Berklee Online', url: 'https://www.youtube.com/watch?v=qLRJbSo0bG0' },
-      { label: 'Melodyne 5: Fast Pitch Correction Tutorial', url: 'https://www.youtube.com/watch?v=8zs3Ou-KZlk' }
-    ]
-  },
-  {
-    icon: '🎹',
-    title: 'Key Intervals for Singers',
-    body: `<p>Train your ear to hear and reproduce these intervals:</p>
-    <table class="theory-table">
-      <tr><th>Interval</th><th>Example</th><th>Memory hook</th></tr>
-      <tr><td>Unison</td><td>C → C</td><td>Same note</td></tr>
-      <tr><td>Minor 3rd</td><td>C → Eb</td><td>"Smoke on the Water"</td></tr>
-      <tr><td>Major 3rd</td><td>C → E</td><td>"When the Saints"</td></tr>
-      <tr><td>Perfect 4th</td><td>C → F</td><td>"Here Comes the Bride"</td></tr>
-      <tr><td>Perfect 5th</td><td>C → G</td><td>"Star Wars theme"</td></tr>
-      <tr><td>Octave</td><td>C → C</td><td>"Somewhere Over the Rainbow"</td></tr>
-    </table>`,
-    links: [
-      { label: 'Learn Intervals by Ear (John Williams themes)', url: 'https://www.youtube.com/watch?v=PSa4XVbQ6Zo' },
-      { label: 'Ultimate Intervals — Ear Training for Beginners', url: 'https://www.youtube.com/watch?v=7bXuewvJ1wg' }
+      { label: 'Melodyne Pitch Correction — Berklee Online', url: 'https://www.youtube.com/watch?v=qLRJbSo0bG0' }
     ]
   }
 ];
@@ -309,22 +339,45 @@ class SingCoachApp {
   // ---- EXERCISES ----
   _renderExercises() {
     const grid = document.getElementById('exerciseGrid');
-    grid.innerHTML = EXERCISES.map(ex => `
-      <div class="ex-card" data-id="${ex.id}">
-        <div class="ex-card-icon">${ex.icon}</div>
-        <div class="ex-card-body">
-          <div class="ex-card-title">${ex.title}</div>
-          <div class="ex-card-sub">${ex.subtitle}</div>
-          ${ex.needsMic ? '<span class="mic-badge">🎙️ Mic</span>' : ''}
+    const savedScores = loadVoiceLabScores();
+    grid.innerHTML = EXERCISES.map(ex => {
+      const sessions = savedScores[ex.id]?.sessions || [];
+      const lastScore = sessions.length > 0 ? sessions[sessions.length - 1].score : null;
+      const scoreBadge = (lastScore !== null && ex.needsMic)
+        ? `<span class="ex-score-badge">Last: ${lastScore}%</span>` : '';
+      return `
+        <div class="ex-card" data-id="${ex.id}">
+          <div class="ex-card-icon">${ex.icon}</div>
+          <div class="ex-card-body">
+            <div class="ex-card-title">${ex.title}</div>
+            <div class="ex-card-sub">${ex.subtitle}</div>
+            <div class="ex-card-tags">
+              ${ex.needsMic ? '<span class="mic-badge">🎙️ Mic</span>' : ''}
+              ${scoreBadge}
+            </div>
+          </div>
+          <button class="ex-card-btn">Start →</button>
         </div>
-        <button class="ex-card-btn">Start →</button>
-      </div>
-    `).join('');
+      `;
+    }).join('');
     grid.querySelectorAll('.ex-card').forEach(card => {
       card.querySelector('.ex-card-btn').addEventListener('click', () => {
         this.exerciseModal.open(card.dataset.id);
       });
     });
+    this._updateRangeBanner();
+    this.exerciseModal.onSessionComplete = (exId, score) => {
+      const card = grid.querySelector(`.ex-card[data-id="${exId}"]`);
+      if (!card) return;
+      const tags = card.querySelector('.ex-card-tags');
+      let badge = tags.querySelector('.ex-score-badge');
+      if (!badge) {
+        badge = document.createElement('span');
+        badge.className = 'ex-score-badge';
+        tags.appendChild(badge);
+      }
+      badge.textContent = `Last: ${score}%`;
+    };
   }
 
   // ---- PRACTICE ----
@@ -623,6 +676,15 @@ class SingCoachApp {
     const sweet = { low: low + Math.round(semitones * 0.2), high: low + Math.round(semitones * 0.7) };
     const vtype = this._classifyVoice(low, high);
 
+    try {
+      localStorage.setItem('voicelab_range', JSON.stringify({
+        lowMidi: low, highMidi: high,
+        sweetLow: sweet.low, sweetHigh: sweet.high,
+        voiceType: vtype.type
+      }));
+    } catch(e) {}
+    this._updateRangeBanner();
+
     document.getElementById('resultLow').textContent = this._rangeLowNote + this._rangeLowOct;
     document.getElementById('resultHigh').textContent = this._rangeHighNote + this._rangeHighOct;
     document.getElementById('rangeSpan').textContent = spanText;
@@ -642,6 +704,24 @@ class SingCoachApp {
       this.detector.stop();
     } else if (this._rangeTunerWasActive) {
       this._attachTunerCallbacks();
+    }
+  }
+
+  _updateRangeBanner() {
+    const banner = document.getElementById('rangeBanner');
+    if (!banner) return;
+    let range = null;
+    try { range = JSON.parse(localStorage.getItem('voicelab_range') || 'null'); } catch(e) {}
+    if (range) {
+      banner.className = 'range-banner range-banner--set';
+      banner.innerHTML = `<span class="rb-icon">✅</span><span>Your range is set — <strong>${range.voiceType}</strong>, sweet spot tuned into all exercises.</span>`;
+    } else {
+      banner.className = 'range-banner range-banner--unset';
+      banner.innerHTML = `<span class="rb-icon">📏</span><span><strong>Do your Vocal Range Test first!</strong> All exercises will be tuned to your voice. <button class="rb-link" id="rbGoTuner">Go to Tuner →</button></span>`;
+      setTimeout(() => {
+        const btn = document.getElementById('rbGoTuner');
+        if (btn) btn.addEventListener('click', () => document.querySelector('[data-tab="tuner"]').click());
+      }, 0);
     }
   }
 

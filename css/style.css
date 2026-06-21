@@ -330,6 +330,46 @@ p { color: var(--muted); line-height: 1.6; }
 .ref-note { font-size: 0.95rem; font-weight: 700; color: var(--text); }
 .ref-freq { font-size: 0.6rem; color: var(--muted); font-variant-numeric: tabular-nums; }
 
+/* ─── Range Banner ─── */
+.range-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  margin-bottom: 16px;
+  line-height: 1.4;
+}
+.range-banner--unset {
+  background: rgba(251,191,36,0.1);
+  border: 1px solid rgba(251,191,36,0.3);
+  color: var(--yellow);
+}
+.range-banner--set {
+  background: rgba(74,222,128,0.08);
+  border: 1px solid rgba(74,222,128,0.2);
+  color: var(--green);
+}
+.rb-icon { font-size: 1.1rem; flex-shrink: 0; }
+.rb-link {
+  background: none; border: none; cursor: pointer;
+  color: var(--yellow); font-weight: 700; font-size: inherit;
+  text-decoration: underline; padding: 0;
+}
+.range-banner--set .rb-link { color: var(--green); }
+
+.ex-range-hint {
+  font-size: 0.75rem;
+  color: var(--yellow);
+  background: rgba(251,191,36,0.08);
+  border: 1px solid rgba(251,191,36,0.2);
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
 /* ─── EXERCISES ─── */
 .exercise-grid { display: flex; flex-direction: column; gap: 10px; }
 
@@ -348,6 +388,7 @@ p { color: var(--muted); line-height: 1.6; }
 .ex-card-body { flex: 1; }
 .ex-card-title { font-weight: 700; font-size: 0.95rem; margin-bottom: 2px; }
 .ex-card-sub { font-size: 0.8rem; color: var(--muted); }
+.ex-card-tags { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-top: 5px; }
 .mic-badge {
   display: inline-block;
   background: rgba(129,140,248,0.15);
@@ -356,7 +397,16 @@ p { color: var(--muted); line-height: 1.6; }
   font-size: 0.68rem;
   padding: 2px 8px;
   border-radius: 20px;
-  margin-top: 4px;
+  font-weight: 600;
+}
+.ex-score-badge {
+  display: inline-block;
+  background: rgba(74,222,128,0.12);
+  border: 1px solid rgba(74,222,128,0.25);
+  color: var(--green);
+  font-size: 0.68rem;
+  padding: 2px 8px;
+  border-radius: 20px;
   font-weight: 600;
 }
 .ex-card-btn {

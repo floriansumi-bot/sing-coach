@@ -1,5 +1,23 @@
 'use strict';
 
+const NOTE_IDX = {C:0,'C#':1,D:2,'D#':3,E:4,F:5,'F#':6,G:7,'G#':8,A:9,'A#':10,B:11};
+
+function loadVoiceLabScores() {
+  try { return JSON.parse(localStorage.getItem('voicelab_scores') || '{}'); }
+  catch(e) { return {}; }
+}
+
+const NOTE_NAMES = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
+
+function loadVoiceLabRange() {
+  try { return JSON.parse(localStorage.getItem('voicelab_range') || 'null'); }
+  catch(e) { return null; }
+}
+
+function midiToNoteObj(midi) {
+  return { note: NOTE_NAMES[((midi % 12) + 12) % 12], octave: Math.floor(midi / 12) - 1 };
+}
+
 const EXERCISES = [
   {
     id: 'breathing',
@@ -112,6 +130,8 @@ class ExerciseModal {
     this.lockTimer = null;
     this.locked = false;
 
+    this.onSessionComplete = null;
+
     this.modal = document.getElementById('exerciseModal');
     this.modalIcon = document.getElementById('modalIcon');
     this.modalTitle = document.getElementById('modalTitle');
@@ -127,12 +147,45 @@ class ExerciseModal {
     this.seqIdx = 0;
     this.smoothCents = 0;
     this.locked = false;
+    this.sequence = this.ex.type === 'pitch' ? this._computeSequence() : null;
     this.modalIcon.textContent = this.ex.icon;
     this.modalTitle.textContent = this.ex.title;
     this.modal.classList.remove('hidden');
     document.body.style.overflow = 'hidden';
     if (this.ex.type === 'instruction') this._renderInstruction();
     else this._renderPitch();
+  }
+
+  _computeSequence() {
+    const ex = this.ex;
+    const range = loadVoiceLabRange();
+
+    if (ex.id === 'scale') {
+      const startMidi = range ? range.sweetLow : 60;
+      const intervals = [0, 2, 4, 5, 7, 5, 4, 2, 0];
+      const labels   = ['Do','Re','Mi','Fa','Sol','Fa','Mi','Re','Do'];
+      return intervals.map((s, i) => ({ ...midiToNoteObj(startMidi + s), label: labels[i] }));
+    }
+
+    if (ex.id === 'vowels') {
+      const midMidi = range ? Math.round((range.sweetLow + range.sweetHigh) / 2) : 69;
+      const n = midiToNoteObj(midMidi);
+      return ['Ah','Eh','Ih','Oh','Oo'].map(label => ({ ...n, label }));
+    }
+
+    if (ex.id === 'octave') {
+      const loMidi = range ? range.sweetLow : 60;
+      const canOct = range && (loMidi + 12 <= range.highMidi);
+      const hiMidi = canOct ? loMidi + 12 : loMidi + 7;
+      const lo = midiToNoteObj(loMidi), hi = midiToNoteObj(hiMidi);
+      return [
+        { ...lo, label: 'Low' }, { ...hi, label: canOct ? 'High' : '5th' },
+        { ...lo, label: 'Low' }, { ...hi, label: canOct ? 'High' : '5th' },
+        { ...lo, label: 'Low' }
+      ];
+    }
+
+    return ex.sequence;
   }
 
   close() {
@@ -187,6 +240,8 @@ class ExerciseModal {
     const ex = this.ex;
     this.seqIdx = 0;
     this.locked = false;
+    this.noteMaxPcts = [];
+    this.curNotePct = 0;
     this.modalBody.innerHTML = `
       <div class="ex-seq" id="exSeq"></div>
       <div class="ex-pitch-display">
@@ -216,8 +271,15 @@ class ExerciseModal {
     this._updateSeqDisplay();
     this._updatePitchTarget();
 
+    if (!loadVoiceLabRange()) {
+      const hint = document.createElement('p');
+      hint.className = 'ex-range-hint';
+      hint.textContent = '📏 Complete the Vocal Range Test for exercises tuned to your voice.';
+      this.modalBody.insertBefore(hint, this.modalBody.firstChild);
+    }
+
     document.getElementById('exHearBtn').addEventListener('click', () => {
-      const t = ex.sequence[this.seqIdx];
+      const t = this.sequence[this.seqIdx];
       this.detector.playTone(PitchDetector.noteToFreq(t.note, t.octave));
     });
     document.getElementById('exAdvBtn').addEventListener('click', () => this._advance());
@@ -246,27 +308,38 @@ class ExerciseModal {
       this.smoothCents = this.smoothCents * 0.5 + cents * 0.5;
       centsEl.textContent = (this.smoothCents >= 0 ? '+' : '') + Math.round(this.smoothCents) + '¢';
 
-      const t = this.ex.sequence[this.seqIdx];
+      const t = this.sequence[this.seqIdx];
       const diff = PitchDetector.centsOff(note, octave, Math.round(this.smoothCents), t.note, t.octave);
-      const pct = Math.max(0, 100 - diff * 2);
+      // Beginner-friendly: green within ~33 cents (was 10 cents with * 2)
+      const pct = Math.max(0, 100 - diff * 0.6);
+      if (pct > this.curNotePct) this.curNotePct = pct;
+
       fillEl.style.width = pct + '%';
       fillEl.style.background = pct > 80 ? 'var(--green)' : pct > 50 ? 'var(--yellow)' : 'var(--red)';
 
+      const sungMidi = (octave + 1) * 12 + (NOTE_IDX[note] ?? 0);
+      const targMidi = (t.octave + 1) * 12 + (NOTE_IDX[t.note] ?? 0);
+
       if (pct > 80) {
-        accEl.textContent = '🟢 IN TUNE! Hold it...';
+        accEl.textContent = '🟢 Nice! Hold it...';
         accEl.style.color = 'var(--green)';
         if (!this.locked) {
           this.locked = true;
           this.lockTimer = setTimeout(() => {
-            if (this.locked) accEl.textContent = '🟢 Perfect! Tap Next ↓';
-          }, 1500);
+            if (this.locked) accEl.textContent = '✅ Got it! Tap Next →';
+          }, 1200);
         }
       } else if (pct > 50) {
-        accEl.textContent = '🟡 Getting close...';
+        const dir = sungMidi < targMidi ? 'a touch higher ↑'
+                  : sungMidi > targMidi ? 'a touch lower ↓'
+                  : this.smoothCents < 0 ? 'a hair sharper ↑' : 'a hair flatter ↓';
+        accEl.textContent = `🟡 Almost — ${dir}`;
         accEl.style.color = 'var(--yellow)';
         this.locked = false; clearTimeout(this.lockTimer);
       } else {
-        accEl.textContent = '🔴 Keep adjusting...';
+        const dir = sungMidi < targMidi ? 'higher ↑' : sungMidi > targMidi ? 'lower ↓'
+                  : this.smoothCents < 0 ? 'sharper ↑' : 'flatter ↓';
+        accEl.textContent = `🔴 Sing ${dir}`;
         accEl.style.color = 'var(--red)';
         this.locked = false; clearTimeout(this.lockTimer);
       }
@@ -284,14 +357,17 @@ class ExerciseModal {
   }
 
   _advance() {
+    // Bank the best accuracy reached on this note
+    this.noteMaxPcts.push(Math.round(this.curNotePct));
+    this.curNotePct = 0;
+
     this.seqIdx++;
     this.locked = false;
     clearTimeout(this.lockTimer);
     const ex = this.ex;
-    if (this.seqIdx >= ex.sequence.length) {
+    if (this.seqIdx >= this.sequence.length) {
       this._stopDetector();
-      const acc = document.getElementById('exAccuracy');
-      if (acc) { acc.textContent = '🎉 Exercise complete!'; acc.style.color = 'var(--cyan)'; }
+      this._finishSession();
       document.getElementById('exAdvBtn').style.display = 'none';
       document.getElementById('exFinishBtn').style.display = '';
       return;
@@ -299,6 +375,43 @@ class ExerciseModal {
     this._updateSeqDisplay();
     this._updatePitchTarget();
     document.getElementById('exPrevBtn').disabled = this.seqIdx === 0;
+  }
+
+  _finishSession() {
+    const sessionScore = this.noteMaxPcts.length
+      ? Math.round(this.noteMaxPcts.reduce((a, b) => a + b, 0) / this.noteMaxPcts.length)
+      : 0;
+
+    const exId = this.ex.id;
+    const scores = loadVoiceLabScores();
+    const prev = scores[exId]?.sessions || [];
+    const lastScore = prev.length > 0 ? prev[prev.length - 1].score : null;
+    const bestScore = prev.length > 0 ? Math.max(...prev.map(s => s.score)) : null;
+
+    if (!scores[exId]) scores[exId] = { sessions: [] };
+    scores[exId].sessions.push({ date: new Date().toISOString().slice(0, 10), score: sessionScore });
+    if (scores[exId].sessions.length > 30) scores[exId].sessions.splice(0, scores[exId].sessions.length - 30);
+    try { localStorage.setItem('voicelab_scores', JSON.stringify(scores)); } catch(e) {}
+
+    const acc = document.getElementById('exAccuracy');
+    if (!acc) return;
+
+    const emoji = sessionScore >= 80 ? '🎉' : sessionScore >= 60 ? '😊' : '💪';
+    let progress = '';
+    if (lastScore !== null) {
+      const delta = sessionScore - lastScore;
+      if (delta > 2)       progress = ` — ↑ +${delta}% from last time!`;
+      else if (delta < -2) progress = ` — ↓ ${delta}% from last`;
+      else                 progress = ' — same as last time';
+    } else {
+      progress = ' — first run, keep going!';
+    }
+    const newBest = (bestScore !== null && sessionScore > bestScore) ? ' 🏆 New best!' : '';
+
+    acc.textContent = `${emoji} Score: ${sessionScore}%${progress}${newBest}`;
+    acc.style.color = sessionScore >= 80 ? 'var(--green)' : sessionScore >= 60 ? 'var(--yellow)' : 'var(--cyan)';
+
+    if (this.onSessionComplete) this.onSessionComplete(exId, sessionScore);
   }
 
   _back() {
@@ -313,7 +426,7 @@ class ExerciseModal {
   _updateSeqDisplay() {
     const seq = document.getElementById('exSeq');
     if (!seq) return;
-    seq.innerHTML = this.ex.sequence.map((s, i) => `
+    seq.innerHTML = this.sequence.map((s, i) => `
       <div class="seq-dot ${i === this.seqIdx ? 'active' : i < this.seqIdx ? 'done' : ''}">
         <span>${s.note}${s.octave}</span>
         <span class="seq-label">${s.label}</span>
@@ -322,7 +435,7 @@ class ExerciseModal {
   }
 
   _updatePitchTarget() {
-    const t = this.ex.sequence[this.seqIdx];
+    const t = this.sequence[this.seqIdx];
     const tn = document.getElementById('exTargetNote');
     const ts = document.getElementById('exTargetSub');
     if (tn) tn.textContent = t.note + t.octave;
