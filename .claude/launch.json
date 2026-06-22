@@ -1,11 +1,11 @@
-﻿{
+{
   "version": "0.0.1",
   "configurations": [
     {
       "name": "voicelab",
-      "runtimeExecutable": "npx",
-      "runtimeArgs": ["serve", "-p", "3500", "."],
-      "port": 3500
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "8044"],
+      "port": 8044
     }
   ]
 }
